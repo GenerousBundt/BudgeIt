@@ -17,7 +17,8 @@ namespace BudgeIt
             Title = "Tim Denison's BudgeIt";
             mainLayout = new StackLayout
             {
-                Padding = new Thickness(20, 35, 20, 25)
+                Padding = new Thickness(20, 35, 20, 25),
+                Orientation = StackOrientation.Vertical
             };
 
             Label mainLabel = new Label
@@ -37,13 +38,13 @@ namespace BudgeIt
             {
                 Placeholder = "$ Amount",
                 WidthRequest = 110,
-                HorizontalOptions = LayoutOptions.Start
+                HorizontalOptions = LayoutOptions.StartAndExpand
             };
             Entry notesEntry = new Entry
             {
                 Placeholder = "Note",
                 WidthRequest = 110,
-                HorizontalOptions = LayoutOptions.End
+                HorizontalOptions = LayoutOptions.EndAndExpand
             };
 
             Button submitWithdrawalBtn = new Button
@@ -80,7 +81,7 @@ namespace BudgeIt
             mainLayout.Children.Add(btnLayout);
 
             Content = mainLayout;
-            
+
         }
     }
 }
