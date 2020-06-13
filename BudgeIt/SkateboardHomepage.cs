@@ -34,11 +34,19 @@ namespace BudgeIt
                 Orientation = StackOrientation.Horizontal
             };
 
+            Label dollarLabel = new Label
+            {
+                WidthRequest = 10,
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalTextAlignment = TextAlignment.Center,
+                Text = "$"
+            };
             Entry amtEntry = new Entry
             {
-                Placeholder = "$ Amount",
-                WidthRequest = 110,
-                HorizontalOptions = LayoutOptions.StartAndExpand
+                Placeholder = "0.00",
+                WidthRequest = 100,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                Keyboard = Keyboard.Numeric,
             };
             Entry notesEntry = new Entry
             {
@@ -74,6 +82,7 @@ namespace BudgeIt
             btnLayout.Children.Add(submitDepositBtn);
             btnLayout.Children.Add(submitWithdrawalBtn);
 
+            entriesLayout.Children.Add(dollarLabel);
             entriesLayout.Children.Add(amtEntry);
             entriesLayout.Children.Add(notesEntry);
 
@@ -85,4 +94,3 @@ namespace BudgeIt
         }
     }
 }
-
