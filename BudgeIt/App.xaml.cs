@@ -10,7 +10,7 @@ namespace BudgeIt
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new SkateboardHomePage();
         }
 
         protected override void OnStart()

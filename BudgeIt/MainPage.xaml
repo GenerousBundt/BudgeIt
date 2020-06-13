@@ -9,7 +9,7 @@
             <Entry Placeholder="Amount" WidthRequest="110" HorizontalOptions="StartAndExpand" />
             <Entry Placeholder="Note" WidthRequest="110" HorizontalOptions="EndAndExpand"/>
         </StackLayout>
-        <Picker
+
         <Button Text="ClickMe"
                 VerticalOptions = "StartAndExpand"
                 Clicked="Button_Clicked" />
