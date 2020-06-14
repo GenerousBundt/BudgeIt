@@ -1,7 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
 using BudgeIt.Skateboard.Models;
+using BudgeIt.Infrastructure;
 using System.Globalization;
+using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace BudgeIt.Skateboard
 {
@@ -10,8 +13,11 @@ namespace BudgeIt.Skateboard
         StackLayout mainLayout;
         StackLayout entriesLayout;
         StackLayout btnLayout;
+        Entry amtEntry;
+        Entry notesEntry;
         Picker accountPicker;
 
+        FileEngine fileEngine = new FileEngine();
 
         public SkateboardHomePage()
         {
@@ -31,7 +37,6 @@ namespace BudgeIt.Skateboard
             ConfigureButtons();
 
             Content = mainLayout;
-
         }
         private void ConfigureTitle()
         {
@@ -52,7 +57,7 @@ namespace BudgeIt.Skateboard
             };
 
             var defaultAmtValue = 0.00M;
-            Entry amtEntry = new Entry
+            amtEntry = new Entry
             {
                 Placeholder = defaultAmtValue.ToString("C", CultureInfo.CurrentCulture),
                 WidthRequest = 110,
@@ -60,7 +65,7 @@ namespace BudgeIt.Skateboard
                 Keyboard = Keyboard.Numeric,
             };
 
-            Entry notesEntry = new Entry
+            notesEntry = new Entry
             {
                 Placeholder = "Note",
                 WidthRequest = 110,
@@ -76,14 +81,14 @@ namespace BudgeIt.Skateboard
         {
 
             var listOfCategories = new Categories().CategoryList;
-            var picker = new Picker
+            accountPicker = new Picker
             {
                 Title = "Select a Category",
                 TitleColor = Color.Indigo,
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
-            picker.ItemsSource = listOfCategories;
-            mainLayout.Children.Add(picker);
+            accountPicker.ItemsSource = listOfCategories;
+            mainLayout.Children.Add(accountPicker);
         }
         private void ConfigureButtons()
         {
@@ -96,6 +101,8 @@ namespace BudgeIt.Skateboard
                 HeightRequest = 50,
                 HorizontalOptions = LayoutOptions.EndAndExpand
             };
+
+            submitWithdrawalBtn.Clicked += Withdrawal_Clicked;
             Button submitDepositBtn = new Button
             {
                 Text = "Deposit",
@@ -106,6 +113,7 @@ namespace BudgeIt.Skateboard
                 HorizontalOptions = LayoutOptions.StartAndExpand
             };
 
+            submitDepositBtn.Clicked += Deposit_Clicked;
             btnLayout = new StackLayout
             {
                 Padding = new Thickness(0),
@@ -115,6 +123,41 @@ namespace BudgeIt.Skateboard
             btnLayout.Children.Add(submitWithdrawalBtn);
 
             mainLayout.Children.Add(btnLayout);
+        }
+        private async void Withdrawal_Clicked(object sender, EventArgs e)
+        {
+            await Button_Clicked(sender, e, BudgetAction.Withdrawal);
+        }
+        private async void Deposit_Clicked(object sender, EventArgs e)
+        {
+            var entries = await fileEngine.ReadTextAsync(new Categories().CategoryList[0]);
+            Console.WriteLine(entries);
+        }
+        private async Task Button_Clicked(object sender, EventArgs e, BudgetAction action)
+        {
+            if(accountPicker.SelectedItem == null)
+            {
+                Console.WriteLine("You must select an account.");
+                return;
+            }
+            string amount = amtEntry.Text;
+            if ((!string.IsNullOrEmpty(amount))
+                &&
+                decimal.TryParse(amount, out decimal amtDecimal))
+            {
+                var budgetEntry = new BudgetEntry(action);
+                budgetEntry.Amount = amtDecimal;
+                budgetEntry.Category = (string)accountPicker.SelectedItem;
+                budgetEntry.Note = notesEntry.Text;
+
+                await fileEngine.WriteTextAsync(
+                    budgetEntry.Category,
+                    JsonSerializer.Serialize(budgetEntry)
+                    );
+            }
+                
+            else
+                Console.WriteLine("Amount must be filled in with a valid amount.");
         }
     }
 }
