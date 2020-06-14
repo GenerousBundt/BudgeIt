@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using BudgeIt.Skateboard.Models;
+using System.Globalization;
 
 namespace BudgeIt.Skateboard
 {
@@ -50,20 +51,15 @@ namespace BudgeIt.Skateboard
                 Orientation = StackOrientation.Horizontal
             };
 
-            Label dollarLabel = new Label
-            {
-                WidthRequest = 10,
-                HorizontalOptions = LayoutOptions.Start,
-                VerticalTextAlignment = TextAlignment.Center,
-                Text = "$"
-            };
+            var defaultAmtValue = 0.00M;
             Entry amtEntry = new Entry
             {
-                Placeholder = "0.00",
-                WidthRequest = 100,
+                Placeholder = defaultAmtValue.ToString("C", CultureInfo.CurrentCulture),
+                WidthRequest = 110,
                 HorizontalOptions = LayoutOptions.StartAndExpand,
                 Keyboard = Keyboard.Numeric,
             };
+
             Entry notesEntry = new Entry
             {
                 Placeholder = "Note",
@@ -71,7 +67,6 @@ namespace BudgeIt.Skateboard
                 HorizontalOptions = LayoutOptions.EndAndExpand
             };
 
-            entriesLayout.Children.Add(dollarLabel);
             entriesLayout.Children.Add(amtEntry);
             entriesLayout.Children.Add(notesEntry);
 
