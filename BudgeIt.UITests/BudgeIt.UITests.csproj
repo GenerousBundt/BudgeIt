@@ -8,6 +8,7 @@
     <RootNamespace>BudgeIt.UITests</RootNamespace>
     <AssemblyName>BudgeIt.UITests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <ReleaseVersion>0.1.1</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
