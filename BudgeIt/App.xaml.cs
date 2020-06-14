@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using BudgeIt.Skateboard;
 
 namespace BudgeIt
 {
@@ -10,7 +11,7 @@ namespace BudgeIt
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new SkateboardHomePage();
         }
 
         protected override void OnStart()
