@@ -1,8 +1,8 @@
 ﻿using System;
-
 using Xamarin.Forms;
+using BudgeIt.Skateboard.Models;
 
-namespace BudgeIt
+namespace BudgeIt.Skateboard
 {
     public class SkateboardHomePage : ContentPage
     {
@@ -21,13 +21,29 @@ namespace BudgeIt
                 Orientation = StackOrientation.Vertical
             };
 
+            ConfigureTitle();
+
+            ConfigureEntries();
+
+            ConfigurePicker();
+
+            ConfigureButtons();
+
+            Content = mainLayout;
+
+        }
+        private void ConfigureTitle()
+        {
             Label mainLabel = new Label
             {
-                Text = Title,
+                Text = Title, // This value is set in constructor
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
             mainLayout.Children.Add(mainLabel);
+        }
+        private void ConfigureEntries()
+        {
             entriesLayout = new StackLayout
             {
                 Padding = new Thickness(0),
@@ -55,6 +71,27 @@ namespace BudgeIt
                 HorizontalOptions = LayoutOptions.EndAndExpand
             };
 
+            entriesLayout.Children.Add(dollarLabel);
+            entriesLayout.Children.Add(amtEntry);
+            entriesLayout.Children.Add(notesEntry);
+
+            mainLayout.Children.Add(entriesLayout);
+        }
+        private void ConfigurePicker()
+        {
+
+            var listOfCategories = new Categories().CategoryList;
+            var picker = new Picker
+            {
+                Title = "Select a Category",
+                TitleColor = Color.Indigo,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+            picker.ItemsSource = listOfCategories;
+            mainLayout.Children.Add(picker);
+        }
+        private void ConfigureButtons()
+        {
             Button submitWithdrawalBtn = new Button
             {
                 Text = "Withdraw",
@@ -82,15 +119,7 @@ namespace BudgeIt
             btnLayout.Children.Add(submitDepositBtn);
             btnLayout.Children.Add(submitWithdrawalBtn);
 
-            entriesLayout.Children.Add(dollarLabel);
-            entriesLayout.Children.Add(amtEntry);
-            entriesLayout.Children.Add(notesEntry);
-
-            mainLayout.Children.Add(entriesLayout);
             mainLayout.Children.Add(btnLayout);
-
-            Content = mainLayout;
-
         }
     }
 }
