@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BudgeIt.Skateboard.Models;
 using Xamarin.Forms;
 
@@ -20,6 +21,10 @@ namespace BudgeIt.Skateboard
 
             ConfigurePicker();
 
+            ListView listView = new ListView();
+            listView.ItemsSource = new List<string> { "First", "Second", "Third" };
+
+            activityMainLayout.Children.Add(listView);
             Content = activityMainLayout;
 
         }
