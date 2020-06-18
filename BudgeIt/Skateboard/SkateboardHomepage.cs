@@ -27,7 +27,11 @@ namespace BudgeIt.Skateboard
                 Padding = new Thickness(20, 35, 20, 25),
                 Orientation = StackOrientation.Vertical
             };
+            ToolbarItem activityLink = new ToolbarItem();
+            activityLink.Text = "Activity";
+            activityLink.Clicked += Go_To_Activity;
 
+            this.ToolbarItems.Add(activityLink);
             ConfigureTitle();
 
             ConfigureEntries();
@@ -38,6 +42,12 @@ namespace BudgeIt.Skateboard
 
             Content = mainLayout;
         }
+
+        private void Go_To_Activity(Object sender, EventArgs args)
+        {
+            Navigation.PushAsync(new SkateboardActivity());
+        }
+
         private void ConfigureTitle()
         {
             Label mainLabel = new Label
@@ -130,8 +140,7 @@ namespace BudgeIt.Skateboard
         }
         private async void Deposit_Clicked(object sender, EventArgs e)
         {
-            var entries = await fileEngine.ReadTextAsync(new Categories().CategoryList[0]);
-            Console.WriteLine(entries);
+            await Button_Clicked(sender, e, BudgetAction.Deposit);
         }
         private async Task Button_Clicked(object sender, EventArgs e, BudgetAction action)
         {
